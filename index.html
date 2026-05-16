@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teymurian Studios | The Pharhad Road</title>
+  <meta name="description" content="Teymurian Studios is creating The Pharhad Road, a compact tactical fantasy RPG with grid combat, fog of war, dice-driven battles, and road-based survival." />
+  <style>
+    :root {
+      --bg: #0d0f12;
+      --panel: #171b22;
+      --panel-2: #202634;
+      --gold: #ffd166;
+      --gold-soft: #f3c56b;
+      --text: #f5f1e8;
+      --muted: #b8b2a6;
+      --line: rgba(255, 209, 102, 0.22);
+      --danger: #e56b6f;
+      --blue: #76a9ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: radial-gradient(circle at top, #1b2433 0%, var(--bg) 48%, #050607 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(13, 15, 18, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .navlinks a {
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 88px 0 72px;
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 6.3rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      max-width: 680px;
+      font-size: 1.18rem;
+      color: var(--muted);
+      margin: 24px 0 0;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      text-decoration: none;
+      border: 1px solid var(--line);
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      color: #15100a;
+      border-color: var(--gold);
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+
+    .mock-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .screen {
+      aspect-ratio: 4 / 3;
+      padding: 18px;
+      background:
+        linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px),
+        #121822;
+      background-size: 32px 32px;
+      position: relative;
+    }
+
+    .unit {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      position: absolute;
+      display: grid;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      font-size: 0.82rem;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.4);
+    }
+
+    .hero-unit { background: var(--blue); color: #07111f; }
+    .enemy-unit { background: var(--danger); color: #22080a; }
+    .tile-blue { outline: 2px solid rgba(118,169,255,0.8); background: rgba(118,169,255,0.18); }
+
+    .u1 { left: 64px; bottom: 64px; }
+    .u2 { left: 96px; bottom: 96px; }
+    .u3 { left: 128px; bottom: 64px; }
+    .e1 { right: 96px; top: 76px; }
+    .e2 { right: 160px; top: 140px; }
+    .e3 { right: 64px; top: 172px; }
+
+    .caption {
+      padding: 16px 18px;
+      font-family: Arial, sans-serif;
+      color: var(--muted);
+      background: rgba(0,0,0,0.25);
+      border-top: 1px solid var(--line);
+    }
+
+    section { padding: 72px 0; }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      margin: 0 0 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-lead {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(23, 27, 34, 0.82);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      min-height: 180px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--gold-soft);
+      font-size: 1.28rem;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.98rem;
+    }
+
+    .card ul { padding-left: 18px; margin: 0; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .quote {
+      font-size: 1.6rem;
+      line-height: 1.25;
+      color: var(--text);
+      border-left: 4px solid var(--gold);
+      padding-left: 18px;
+    }
+
+    footer {
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero, .split, .grid { grid-template-columns: 1fr; }
+      .navlinks { display: none; }
+      section { padding: 52px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap">
+      <div class="brand">Teymurian Studios</div>
+      <div class="navlinks">
+        <a href="#game">Game</a>
+        <a href="#features">Features</a>
+        <a href="#studio">Studio</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap" id="game">
+      <div>
+        <div class="eyebrow">A tactical fantasy RPG</div>
+        <h1>The Pharhad Road</h1>
+        <p>
+          Lead a four-hero party through four dangerous roads in a compact, dice-driven tactical RPG.
+          Scout sight lines, reveal enemies through fog of war, manage scarce recovery tools,
+          and survive turn-based battles where every tile matters.
+        </p>
+        <div class="buttons">
+          <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road">Wishlist on Steam</a>
+          <a class="btn secondary" href="#features">See Features</a>
+        </div>
+      </div>
+
+      <div class="mock-card" aria-label="Game screenshot mockup">
+        <div class="screen">
+          <div class="unit hero-unit u1">V</div>
+          <div class="unit hero-unit u2">W</div>
+          <div class="unit hero-unit u3">E</div>
+          <div class="unit enemy-unit e1">T</div>
+          <div class="unit enemy-unit e2">F</div>
+          <div class="unit enemy-unit e3">B</div>
+        </div>
+        <div class="caption">Grid movement, line of sight, turn queue tactics, and road-by-road survival.</div>
+      </div>
+    </section>
+
+    <section class="wrap" id="features">
+      <h2>Built for tactical choices</h2>
+      <p class="section-lead">
+        The Pharhad Road mixes classic tabletop-style dice with clean digital tactics:
+        movement ranges, action economy, ranged attacks, healing, enemy activation, and recovery decisions between fights.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Four hero roles</h3>
+          <p>
+            Command a four-hero team including the Vanguard, Wayfinder, Ember Sage, and a fourth customizable hero role. Each brings distinct tools such as Grit Mend,
+            Tempo Break, Quarry Brand, Field Mend, Inner Flare, and Homing Sparks.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Four-road campaign</h3>
+          <p>
+            Clear Road 1 through Road 4. Each road raises the pressure with tougher enemy groups,
+            scarce supplies, and survival rewards between encounters.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Fog and line of sight</h3>
+          <p>
+            Enemies wake when the party reveals them by sight or nearby pressure. Scouting matters,
+            and rushing forward can turn a small fight into a dangerous battle.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Multiple ways to play</h3>
+          <p>
+            Play Heroes, Play Monsters, Play Pharhad, or enter Hero Chess: a tactical duel against rival heroes.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Readable dice combat</h3>
+          <p>
+            Attacks use familiar dice notation, hit rolls, critical hits, healing rolls, advantage,
+            reactions, and clear combat log feedback.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Resource survival</h3>
+          <p>
+            Food, Safe Camp, Salve Vials, Field Breathers, and the Pharhad Idol create meaningful
+            choices about when to recover and when to press forward.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="split">
+        <div class="quote">
+          “A small tactical RPG about careful movement, party survival, and readable turn-based battles.”
+        </div>
+        <div class="card">
+          <h3>Quick pitch</h3>
+          <p>
+            The Pharhad Road is a compact fantasy tactics game from Teymurian Studios. It is designed for players
+            who enjoy grid movement, party roles, tactical positioning, and dice-based risk without needing a giant RPG campaign.
+          </p>
+          <ul>
+            <li>Turn-based grid combat</li>
+            <li>32x32 tactical map movement</li>
+            <li>Fog of war and enemy activation</li>
+            <li>Playable heroes, monsters, Pharhad mode, and Hero Chess</li>
+            <li>Built in Godot</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="studio">
+      <h2>Teymurian Studios</h2>
+      <p class="section-lead">
+        Teymurian Studios is an independent game studio focused on clear, character-driven tactics games.
+        The studio’s goal is to make compact strategy experiences with personality, readable rules,
+        and memorable fantasy encounters.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3>Design promise</h3>
+          <p>Small games, sharp choices, clean rules, and battles that are easy to read but hard to master.</p>
+        </article>
+        <article class="card">
+          <h3>First release focus</h3>
+          <p>The Pharhad Road introduces the studio’s style: tactical movement, party pressure, and survival decisions.</p>
+        </article>
+        <article class="card">
+          <h3>Brand tone</h3>
+          <p>Fantasy adventure, thoughtful tactics, handmade indie energy, and approachable tabletop inspiration.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" id="contact">
+      <div class="card">
+        <h2>Follow the road</h2>
+        <p>
+          Play the latest build on Steam, follow development updates, or contact Teymurian Studios for feedback,
+          press, creator coverage, or playtesting.
+        </p>
+        <div class="buttons">
+          <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road">View on Steam</a>
+          <a class="btn secondary" href="mailto:farhad@uw.edu?subject=The%20Pharhad%20Road">Contact the Studio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      © <span id="year"></span> Teymurian Studios. The Pharhad Road is an independent tactical fantasy RPG.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
