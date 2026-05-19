@@ -4,7 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teymurian Studios | The Pharhad Road</title>
-  <meta name="description" content="Teymurian Studios is creating The Pharhad Road, a compact tactical fantasy RPG with grid combat, fog of war, dice-driven battles, and road-based survival." />
+
+  <meta
+    name="description"
+    content="Teymurian Studios is creating The Pharhad Road, a compact tactical fantasy RPG with grid combat, fog of war, dice-driven battles, and road-based survival."
+  />
+
   <style>
     :root {
       --bg: #0d0f12;
@@ -19,17 +24,22 @@
       --blue: #76a9ff;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      background: radial-gradient(circle at top, #1b2433 0%, var(--bg) 48%, #050607 100%);
+      background:
+        radial-gradient(circle at top, #1b2433 0%, var(--bg) 48%, #050607 100%);
       color: var(--text);
       line-height: 1.6;
     }
 
-    a { color: inherit; }
+    a {
+      color: inherit;
+    }
 
     .wrap {
       width: min(1120px, calc(100% - 32px));
@@ -121,6 +131,11 @@
       font-weight: 800;
       text-decoration: none;
       border: 1px solid var(--line);
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
     }
 
     .btn.primary {
@@ -137,7 +152,12 @@
     .mock-card {
       border: 1px solid var(--line);
       border-radius: 28px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.08),
+          rgba(255,255,255,0.02)
+        );
       box-shadow: 0 24px 80px rgba(0,0,0,0.35);
       overflow: hidden;
     }
@@ -166,13 +186,20 @@
       box-shadow: 0 0 0 3px rgba(0,0,0,0.4);
     }
 
-    .hero-unit { background: var(--blue); color: #07111f; }
-    .enemy-unit { background: var(--danger); color: #22080a; }
-    .tile-blue { outline: 2px solid rgba(118,169,255,0.8); background: rgba(118,169,255,0.18); }
+    .hero-unit {
+      background: var(--blue);
+      color: #07111f;
+    }
+
+    .enemy-unit {
+      background: var(--danger);
+      color: #22080a;
+    }
 
     .u1 { left: 64px; bottom: 64px; }
     .u2 { left: 96px; bottom: 96px; }
     .u3 { left: 128px; bottom: 64px; }
+
     .e1 { right: 96px; top: 76px; }
     .e2 { right: 160px; top: 140px; }
     .e3 { right: 64px; top: 172px; }
@@ -185,7 +212,9 @@
       border-top: 1px solid var(--line);
     }
 
-    section { padding: 72px 0; }
+    section {
+      padding: 72px 0;
+    }
 
     h2 {
       font-size: clamp(2rem, 4vw, 3.2rem);
@@ -221,13 +250,17 @@
       font-size: 1.28rem;
     }
 
-    .card p, .card li {
+    .card p,
+    .card li {
       color: var(--muted);
       font-family: Arial, sans-serif;
       font-size: 0.98rem;
     }
 
-    .card ul { padding-left: 18px; margin: 0; }
+    .card ul {
+      padding-left: 18px;
+      margin: 0;
+    }
 
     .split {
       display: grid;
@@ -253,16 +286,29 @@
     }
 
     @media (max-width: 800px) {
-      .hero, .split, .grid { grid-template-columns: 1fr; }
-      .navlinks { display: none; }
-      section { padding: 52px 0; }
+      .hero,
+      .split,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navlinks {
+        display: none;
+      }
+
+      section {
+        padding: 52px 0;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <header>
     <nav class="wrap">
       <div class="brand">Teymurian Studios</div>
+
       <div class="navlinks">
         <a href="#game">Game</a>
         <a href="#features">Features</a>
@@ -274,199 +320,260 @@
   </header>
 
   <main>
+
     <section class="hero wrap" id="game">
+
       <div>
         <div class="eyebrow">A tactical fantasy RPG</div>
+
         <h1>The Pharhad Road</h1>
+
         <p>
-          A compact turn-based tactical RPG where enemies wake through line of sight, resources run thin, and every step can turn one fight into a disaster. Lead Vanguard, Wayfinder, Ember Sage, and Becky across four dangerous roads.
+          A compact turn-based tactical RPG where enemies wake through
+          line of sight, resources run thin, and every step can turn one
+          fight into a disaster.
         </p>
+
         <div class="buttons">
-          <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road">Wishlist on Steam</a>
-          <a class="btn secondary" href="https://teymurian-studios.itch.io/tpr">Play Demo on itch.io</a>
-          <a class="btn secondary" href="Pharhad_Road_Manual.pdf">Read Manual</a>
-          <a class="btn secondary" href="#features">See Features</a>
+          <a
+            class="btn primary"
+            href="https://store.steampowered.com/app/4706510/The_Pharhad_Road"
+            target="_blank"
+          >
+            Wishlist on Steam
+          </a>
+
+          <a
+            class="btn secondary"
+            href="https://teymurian-studios.itch.io/tpr"
+            target="_blank"
+          >
+            Play on itch.io
+          </a>
+
+          <a
+            class="btn secondary"
+            href="Pharhad_Road_Manual.pdf"
+          >
+            Read Manual
+          </a>
         </div>
       </div>
 
-      <div class="mock-card" aria-label="Game screenshot mockup">
+      <div class="mock-card">
+
         <div class="screen">
           <div class="unit hero-unit u1">V</div>
           <div class="unit hero-unit u2">W</div>
           <div class="unit hero-unit u3">E</div>
+
           <div class="unit enemy-unit e1">T</div>
           <div class="unit enemy-unit e2">F</div>
           <div class="unit enemy-unit e3">B</div>
         </div>
-        <div class="caption">Grid movement, line of sight, turn queue tactics, and road-by-road survival.</div>
+
+        <div class="caption">
+          Grid movement, line of sight, turn queue tactics,
+          and road-by-road survival.
+        </div>
+
       </div>
+
     </section>
 
     <section class="wrap" id="features">
+
       <h2>Built for tactical choices</h2>
+
       <p class="section-lead">
-        The Pharhad Road mixes readable dice with clean digital tactics: line-of-sight activation, movement ranges, action economy, ranged attacks, healing, enemy conversion, autosave restarts, and recovery decisions between fights.
+        The Pharhad Road mixes readable dice with clean digital tactics:
+        line-of-sight activation, movement ranges, action economy,
+        ranged attacks, healing, enemy conversion, autosave restarts,
+        and recovery decisions between fights.
       </p>
 
       <div class="grid">
+
         <article class="card">
           <h3>Four hero roles</h3>
           <p>
-            Command Vanguard, Wayfinder, Ember Sage, and Becky. Each brings distinct tools such as Grit Mend,
-            Tempo Break, Quarry Brand, Field Mend, Inner Flare, and Homing Sparks.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Four-road campaign</h3>
-          <p>
-            Clear Road 1 through Road 4. Finish an encounter, recover, autosave, then continue. If Game Over appears and a save exists, restart from the last autosave.
+            Command Vanguard, Wayfinder, Ember Sage, and Becky.
+            Each brings distinct tactical abilities and survival tools.
           </p>
         </article>
 
         <article class="card">
           <h3>Fog and line of sight</h3>
           <p>
-            Enemies wake when the party reveals them by sight or nearby pressure. Scouting matters,
-            and rushing forward can turn a small fight into a dangerous battle.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Multiple ways to play</h3>
-          <p>
-            Play Heroes, Play Monsters, Play Pharhad, Send Cleric Z, or enter Hero Chess: a faster tactical duel against rival heroes and monsters.
+            Enemies wake when the party reveals them by sight or nearby pressure.
+            Scouting matters and rushing forward can turn a small fight into disaster.
           </p>
         </article>
 
         <article class="card">
           <h3>Readable dice combat</h3>
           <p>
-            Attacks use readable dice notation, hit rolls, critical hits, healing rolls, saves, misses, advantage, special effects, and clear combat log feedback.
+            Attacks use readable dice notation, hit rolls,
+            critical hits, healing rolls, saves, misses,
+            and clear combat feedback.
           </p>
         </article>
 
-        <article class="card">
-          <h3>Resource survival</h3>
-          <p>
-            Food, Safe Camp, Salve Vials, Field Mend, Help, dropped weapons, and the Pharhad Idol create meaningful choices about when to recover and when to press forward.
-          </p>
-        </article>
       </div>
+
     </section>
 
     <section class="wrap">
+
       <div class="split">
+
         <div class="quote">
-          “A small tactical RPG about careful movement, party survival, and readable turn-based battles.”
+          “A small tactical RPG about careful movement,
+          party survival, and readable turn-based battles.”
         </div>
+
         <div class="card">
+
           <h3>Quick pitch</h3>
+
           <p>
-            The Pharhad Road is a compact fantasy tactics game from Teymurian Studios. It is designed for players
-            who enjoy grid movement, party roles, tactical positioning, and dice-based risk without needing a giant RPG campaign.
+            The Pharhad Road is a compact fantasy tactics game
+            from Teymurian Studios for players who enjoy
+            grid movement, positioning, and tense tactical choices.
           </p>
+
           <ul>
             <li>Turn-based grid combat</li>
             <li>32x32 tactical map movement</li>
             <li>Fog of war and enemy activation</li>
-            <li>Playable Heroes, Monsters, Pharhad, Send Cleric Z, and Hero Chess</li>
-            <li>Optional 11s mode for fast pressure turns</li>
-            <li>Autosave restart after Game Over</li>
+            <li>Hero and monster game modes</li>
+            <li>Fast tactical gameplay</li>
+            <li>Autosave restart system</li>
             <li>Built in Godot</li>
           </ul>
+
         </div>
+
       </div>
+
     </section>
 
+    <!-- UPDATED PLAY SECTION -->
+
     <section class="wrap" id="play-now">
+
       <h2>Play The Pharhad Road</h2>
+
       <p class="section-lead">
-        Play directly from itch.io, wishlist on Steam, or explore the full player manual before entering the road.
+        Wishlist the game on Steam or play the latest version on itch.io.
       </p>
 
-      <div class="card" style="display:flex; flex-direction:column; gap:24px; align-items:center;">
-        <iframe frameborder="0" src="https://itch.io/embed-upload/17589348?color=f0cf1b" allowfullscreen="" width="640" height="380">
-          <a href="https://teymurian-studios.itch.io/tpr">Play The Pharhad Road on itch.io</a>
-        </iframe>
+      <div class="buttons">
 
-        <iframe frameborder="0" src="https://itch.io/embed/4530113" width="552" height="167">
-          <a href="https://teymurian-studios.itch.io/tpr">The Pharhad Road by Teymurian Studios</a>
-        </iframe>
+        <a
+          class="btn primary"
+          href="https://store.steampowered.com/app/4706510/The_Pharhad_Road"
+          target="_blank"
+        >
+          Wishlist on Steam
+        </a>
+
+        <a
+          class="btn secondary"
+          href="https://teymurian-studios.itch.io/tpr"
+          target="_blank"
+        >
+          Play on itch.io
+        </a>
+
       </div>
+
     </section>
 
     <section class="wrap" id="manual">
+
       <h2>Player Manual</h2>
+
       <p class="section-lead">
-        Learn the road before you step onto it. The official color manual explains the quick start loop, menu modes, turn queue, fog, 11s mode, hero party, enemies, items, skill encyclopedia, and practical road wisdom.
+        Learn the road before you step onto it.
       </p>
-      <div class="grid">
-        <article class="card">
-          <h3>Quick Start</h3>
-          <p>Pick a mode, choose a road, take turns, clear encounters, recover, autosave, and continue toward Road 4.</p>
-        </article>
-        <article class="card">
-          <h3>Hero Party</h3>
-          <p>Review Vanguard, Wayfinder, Ember Sage, and Becky, including HP, movement, guard, initiative, and core skills.</p>
-        </article>
-        <article class="card">
-          <h3>Road Wisdom</h3>
-          <p>Use bonus actions before attacks, stay close enough to heal, respect opportunity attacks, revive at Pharhad Idol first, then use Safe Camp.</p>
-        </article>
-      </div>
+
       <div class="buttons">
-        <a class="btn primary" href="Pharhad_Road_Manual.pdf">Download Manual PDF</a>
+        <a class="btn primary" href="Pharhad_Road_Manual.pdf">
+          Download Manual PDF
+        </a>
       </div>
+
     </section>
 
     <section class="wrap" id="studio">
+
       <h2>Teymurian Studios</h2>
+
       <p class="section-lead">
-        Teymurian Studios is an independent game studio focused on clear, character-driven tactics games.
-        The studio’s goal is to make compact strategy experiences with personality, readable rules,
-        and memorable fantasy encounters.
+        Teymurian Studios is an independent game studio focused
+        on compact tactical fantasy games with readable systems
+        and strong gameplay clarity.
       </p>
-      <div class="grid">
-        <article class="card">
-          <h3>Design promise</h3>
-          <p>Small games, sharp choices, clean rules, and battles that are easy to read but hard to master.</p>
-        </article>
-        <article class="card">
-          <h3>First release focus</h3>
-          <p>The Pharhad Road introduces the studio’s style: tactical movement, party pressure, and survival decisions.</p>
-        </article>
-        <article class="card">
-          <h3>Brand tone</h3>
-          <p>Fantasy adventure, thoughtful tactics, handmade indie energy, and approachable tabletop inspiration.</p>
-        </article>
-      </div>
+
     </section>
 
     <section class="wrap" id="contact">
+
       <div class="card">
+
         <h2>Follow the road</h2>
+
         <p>
-          Play the latest build on Steam, follow development updates, or contact Teymurian Studios for feedback,
-          press, creator coverage, or playtesting.
+          Play the latest build on itch.io,
+          wishlist the game on Steam,
+          or contact Teymurian Studios.
         </p>
+
         <div class="buttons">
-          <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road">View on Steam</a>
-          <a class="btn secondary" href="https://teymurian-studios.itch.io/tpr">Play on itch.io</a>
-          <a class="btn secondary" href="mailto:farhad@uw.edu?subject=The%20Pharhad%20Road">Contact the Studio</a>
+
+          <a
+            class="btn primary"
+            href="https://store.steampowered.com/app/4706510/The_Pharhad_Road"
+            target="_blank"
+          >
+            View on Steam
+          </a>
+
+          <a
+            class="btn secondary"
+            href="https://teymurian-studios.itch.io/tpr"
+            target="_blank"
+          >
+            Play on itch.io
+          </a>
+
+          <a
+            class="btn secondary"
+            href="mailto:farhad@uw.edu?subject=The%20Pharhad%20Road"
+          >
+            Contact the Studio
+          </a>
+
         </div>
+
       </div>
+
     </section>
+
   </main>
 
   <footer>
     <div class="wrap">
-      © <span id="year"></span> Teymurian Studios. The Pharhad Road is an independent tactical fantasy RPG.
+      © <span id="year"></span> Teymurian Studios.
+      The Pharhad Road is an independent tactical fantasy RPG.
     </div>
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
+
 </body>
 </html>
