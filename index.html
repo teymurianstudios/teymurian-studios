@@ -258,6 +258,113 @@
       text-shadow: 0 4px 22px rgba(0,0,0,0.45);
     }
 
+    .creator-panel {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 0;
+      align-items: stretch;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(23, 27, 34, 0.9);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+    }
+
+    .creator-photo {
+      min-height: 460px;
+      background: rgba(0,0,0,0.28);
+    }
+
+    .creator-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .creator-copy {
+      padding: 34px;
+    }
+
+    .creator-kicker {
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .creator-copy p {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+    }
+
+    .creator-statement {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .creator-statement p {
+      margin: 0;
+    }
+
+    .creator-beat {
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.28rem;
+      line-height: 1.25;
+    }
+
+    .creator-powers {
+      display: grid;
+      gap: 8px;
+      margin: 6px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .creator-powers li {
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.42rem;
+      line-height: 1.1;
+    }
+
+    .creator-signature {
+      color: var(--gold-soft);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.16rem;
+      margin-top: 8px;
+    }
+
+    .creator-points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .creator-point {
+      border-left: 3px solid var(--gold);
+      padding-left: 12px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.92rem;
+    }
+
+    .creator-point strong {
+      display: block;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.04rem;
+      margin-bottom: 4px;
+    }
+
     .play-box {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -290,11 +397,14 @@
     @media (max-width: 800px) {
       .hero,
       .split,
+      .creator-panel,
       .grid,
       .play-box { grid-template-columns: 1fr; }
       .navlinks { display: none; }
       section { padding: 52px 0; }
       body { background-attachment: scroll; }
+      .creator-photo { min-height: 340px; }
+      .creator-points { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -307,7 +417,7 @@
         <a href="#features">Features</a>
         <a href="#play-now">Play</a>
         <a href="#manual">Manual</a>
-        <a href="#studio">Studio</a>
+        <a href="#studio">About Me</a>
         <a href="#contact">Contact</a>
       </div>
     </nav>
@@ -453,24 +563,77 @@
     </section>
 
     <section class="wrap" id="studio">
-      <h2>Teymurian Studios</h2>
-      <p class="section-lead">
-        Teymurian Studios is an independent game studio focused on clear, character-driven tactics games with readable rules,
-        compact strategy, and handmade fantasy energy.
-      </p>
-      <div class="grid">
-        <article class="card">
-          <h3>Design promise</h3>
-          <p>Small games, sharp choices, clean rules, and battles that are easy to read but hard to master.</p>
-        </article>
-        <article class="card">
-          <h3>First release focus</h3>
-          <p>The Pharhad Road introduces tactical movement, party pressure, dice tension, and survival decisions.</p>
-        </article>
-        <article class="card">
-          <h3>Brand tone</h3>
-          <p>Fantasy adventure, thoughtful tactics, indie energy, and approachable tabletop inspiration.</p>
-        </article>
+      <div class="creator-panel">
+        <div class="creator-photo">
+          <img src="farhad_teymurian_portrait.png" alt="Pixel portrait of Farhad Teymurian speaking at a podium" />
+        </div>
+
+        <div class="creator-copy">
+          <div class="creator-kicker">About the creator</div>
+          <h2>Why I Made The Pharhad Road</h2>
+
+          <div class="creator-statement">
+            <p>The Pharhad Road is the game I always wanted to play&hellip; but nobody ever made.</p>
+            <p>I didn&rsquo;t want endless cutscenes. I didn&rsquo;t want ads. I didn&rsquo;t want battle passes, timers, or giant bloated systems.</p>
+            <p>I just wanted to swing a greatsword and hit something.</p>
+
+            <p class="creator-beat">Fast.</p>
+            <p class="creator-beat">Simple. Easy to learn. Fun to play. Quick decisions. Cool abilities. Dice rolling. Positioning. BAM.</p>
+
+            <p>I wanted to use all those fantasy abilities I grew up reading about without spending hours learning complicated systems before the fun started.</p>
+            <p>So I made a world where the action starts immediately.</p>
+            <p>Enemies wake when they see you. Battles explode fast. One mistake can pull the entire battlefield into chaos.</p>
+            <p>And every hero feels different.</p>
+            <p>The Vanguard crashes through enemies with heavy strikes. The Wayfinder controls the field from range. The Ember Sage burns everything at the perfect moment. Becky flies across the battlefield kicking monsters off balance and saving allies.</p>
+
+            <p>But then something happened while building the game.</p>
+            <p>I started thinking:</p>
+            <p class="creator-beat">&ldquo;What about the monsters?&rdquo;</p>
+            <p>They&rsquo;re part of the world too.</p>
+            <p>So I made modes where you can play the monsters themselves &mdash; hunting the heroes instead of surviving as them.</p>
+
+            <p>Then I thought:</p>
+            <p class="creator-beat">&ldquo;What if I could play as the force ABOVE the battlefield?&rdquo;</p>
+            <p>So I created ways to play almost like a god &mdash; interfering with battles, changing outcomes, influencing the chaos itself.</p>
+
+            <p>Then I thought:</p>
+            <p class="creator-beat">&ldquo;What if the heroes trained against EACH OTHER?&rdquo;</p>
+            <p>So yes&hellip; Hero Chess happened.</p>
+            <p>Heroes versus heroes. Practice battles. Pure tactical combat.</p>
+
+            <p>But eventually, after building a world completely focused on fighting, I wanted to ask something different:</p>
+            <p class="creator-beat">&ldquo;What would it mean to heal this world instead?&rdquo;</p>
+            <p>That idea became Cleric Z.</p>
+            <p>A lone figure entering a violent world with:</p>
+
+            <ul class="creator-powers">
+              <li>no party</li>
+              <li>no allies</li>
+              <li>no weapons</li>
+              <li>no attack abilities</li>
+            </ul>
+
+            <p>Only two powers:</p>
+            <ul class="creator-powers">
+              <li>Love.</li>
+              <li>Truth.</li>
+            </ul>
+
+            <p>And somehow&hellip; with only those two skills&hellip; Cleric Z may become the strongest character in the entire world.</p>
+            <p>That idea matters deeply to me.</p>
+            <p>Because underneath all the combat, monsters, tactics, dice, and chaos, The Pharhad Road is really about choice.</p>
+            <p>Violence. Survival. Power. Mercy. Control. Healing.</p>
+            <p>And deciding what kind of force you want to become inside the world.</p>
+
+            <p>I built this game by myself in Godot Engine through constant experimentation, failures, bugs, rewrites, and late nights learning step by step.</p>
+            <p>Some days I felt like a game developer.</p>
+            <p>Other days I felt like a confused wizard fighting pathfinding demons.</p>
+            <p>But I kept going because this world felt real to me.</p>
+            <p>And because I wanted to finally create the game I had been waiting for my entire life.</p>
+
+            <div class="creator-signature">Farhad Teymurian</div>
+          </div>
+        </div>
       </div>
     </section>
 
