@@ -1,0 +1,2075 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Pharhad Road Combatant and Skill Tables</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --ink: #f5ead6;
+            --muted: #c9b99c;
+            --faint: #8b7f68;
+            --line: rgba(246, 221, 166, 0.18);
+            --panel: rgba(29, 24, 20, 0.82);
+            --panel-2: rgba(49, 38, 29, 0.9);
+            --gold: #f0bd48;
+            --blue: #65c7ff;
+            --green: #83e08a;
+            --red: #ff766d;
+            --shadow: rgba(0, 0, 0, 0.38);
+            font-family: "Segoe UI", system-ui, sans-serif;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at 14% 8%, rgba(240, 189, 72, 0.18), transparent 28rem),
+                radial-gradient(circle at 92% 22%, rgba(101, 199, 255, 0.13), transparent 24rem),
+                linear-gradient(135deg, #17120f 0%, #282017 46%, #11191b 100%);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.08));
+        }
+        main {
+            width: min(1640px, calc(100vw - 32px));
+            margin: 0 auto;
+            padding: 34px 0 56px;
+        }
+        header.hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 24px;
+            align-items: end;
+            margin-bottom: 24px;
+        }
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 4.6rem);
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+        .subtitle {
+            margin: 14px 0 0;
+            color: var(--muted);
+            max-width: 760px;
+            font-size: 1.05rem;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .stat-card {
+            min-height: 112px;
+            padding: 15px 16px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
+            box-shadow: 0 18px 50px var(--shadow);
+        }
+        .stat-card span {
+            color: var(--muted);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .stat-card strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 1.65rem;
+        }
+        .stat-card small {
+            display: block;
+            color: var(--faint);
+            margin-top: 6px;
+        }
+        section {
+            margin-top: 22px;
+            border: 1px solid var(--line);
+            background: var(--panel);
+            box-shadow: 0 24px 70px var(--shadow);
+        }
+        .section-head {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(90deg, rgba(240, 189, 72, 0.16), rgba(101, 199, 255, 0.08));
+        }
+        h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 0;
+        }
+        .search {
+            width: min(360px, 100%);
+            border: 1px solid var(--line);
+            background: rgba(8, 7, 6, 0.55);
+            color: var(--ink);
+            padding: 11px 12px;
+            outline: none;
+            font: inherit;
+        }
+        .search:focus {
+            border-color: rgba(240, 189, 72, 0.7);
+            box-shadow: 0 0 0 3px rgba(240, 189, 72, 0.14);
+        }
+        .table-wrap {
+            overflow: auto;
+            max-height: 78vh;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 1320px;
+        }
+        th, td {
+            padding: 10px 11px;
+            border-bottom: 1px solid rgba(246, 221, 166, 0.11);
+            vertical-align: middle;
+            text-align: left;
+        }
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 4;
+            background: #2f281f;
+            color: #f7d78b;
+            font-size: 0.73rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+        tbody tr {
+            background: rgba(255,255,255,0.015);
+        }
+        tbody tr:nth-child(even) {
+            background: rgba(255,255,255,0.045);
+        }
+        tbody tr:hover {
+            background: rgba(240, 189, 72, 0.11);
+        }
+        .identity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 224px;
+        }
+        .identity strong {
+            display: block;
+            font-size: 0.96rem;
+            line-height: 1.15;
+        }
+        .identity small {
+            display: block;
+            margin-top: 3px;
+            color: var(--faint);
+            font-size: 0.76rem;
+        }
+        .pixel-icon {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border: 1px solid rgba(240, 189, 72, 0.42);
+            background: #17140f;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 0 18px rgba(240, 189, 72, 0.12);
+        }
+        .pixel-icon img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+        .sprite-crop {
+            width: var(--w);
+            height: var(--h);
+            background-image: var(--sheet);
+            background-repeat: no-repeat;
+            background-position: var(--x) var(--y);
+            image-rendering: pixelated;
+            transform: scale(var(--scale));
+            transform-origin: center;
+        }
+        .pixel-icon.fallback {
+            color: var(--gold);
+            font-weight: 800;
+        }
+        .pill {
+            display: inline-block;
+            border: 1px solid rgba(101, 199, 255, 0.28);
+            background: rgba(101, 199, 255, 0.1);
+            color: #cfefff;
+            padding: 4px 8px;
+            font-size: 0.76rem;
+            white-space: nowrap;
+        }
+        .skill-kind {
+            border-color: rgba(131, 224, 138, 0.32);
+            background: rgba(131, 224, 138, 0.11);
+            color: #d9ffd8;
+        }
+        .num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .hot {
+            color: #ffd178;
+            font-weight: 700;
+        }
+        .guard {
+            color: #aee8ff;
+            font-weight: 700;
+        }
+        .saves {
+            color: var(--muted);
+            min-width: 170px;
+        }
+        .skills {
+            min-width: 360px;
+        }
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 3px 5px 3px 0;
+            padding: 3px 8px 3px 3px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.24);
+            white-space: nowrap;
+            font-size: 0.82rem;
+        }
+        .skill-chip .pixel-icon {
+            width: 28px;
+            height: 28px;
+            flex-basis: 28px;
+            border-color: rgba(255,255,255,0.16);
+            box-shadow: none;
+        }
+        .skill-chip .pixel-icon img {
+            width: 24px;
+            height: 24px;
+        }
+        .chip-count {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .description {
+            min-width: 340px;
+            color: var(--muted);
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            color: var(--faint);
+            margin-top: 22px;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 900px) {
+            main {
+                width: min(100vw - 18px, 1640px);
+                padding-top: 18px;
+            }
+            header.hero {
+                grid-template-columns: 1fr;
+            }
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .section-head {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .search {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header class="hero">
+        <div>
+            <h1>The Pharhad Road Codex</h1>
+            <p class="subtitle">A visual comparison table for every combatant and skill currently defined in the Godot databases.</p>
+        </div>
+        <div class="cards">
+            
+        <article class="stat-card">
+            <span>Combatants</span>
+            <strong>41</strong>
+            <small>All playable heroes, summons, divs, and beasts</small>
+        </article>
+    
+            
+        <article class="stat-card">
+            <span>Highest HP</span>
+            <strong>Azhdaha-ye Sorkh 210</strong>
+            <small>Largest health pool</small>
+        </article>
+    
+            
+        <article class="stat-card">
+            <span>Highest Guard</span>
+            <strong>Pharhad 30</strong>
+            <small>Fastest: Pharhad move 30</small>
+        </article>
+    
+        </div>
+    </header>
+
+    <section>
+        <div class="section-head">
+            <h2>Combatant Comparison</h2>
+            <input class="search" type="search" data-table-search="combatants" placeholder="Search combatants, roles, or skills">
+        </div>
+        <div class="table-wrap">
+            <table id="combatants">
+                <thead>
+                    <tr>
+                        <th>Combatant</th>
+                        <th>Role</th>
+                        <th>Class</th>
+                        <th>Move Type</th>
+                        <th>HP</th>
+                        <th>Move</th>
+                        <th>Init</th>
+                        <th>Guard</th>
+                        <th>Attack</th>
+                        <th>Damage</th>
+                        <th>Zor</th>
+                        <th>Chalaki</th>
+                        <th>Tavan</th>
+                        <th>Danesh</th>
+                        <th>Kherad</th>
+                        <th>Farr</th>
+                        <th>Save Training</th>
+                        <th>Skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr data-search="Atash Dastur alexandra Pahlavan Roster Atash Touch Atash Bolt Atash Farr Seeking Atash">
+            <td class="identity">
+                <span class="pixel-icon" title="Atash Dastur"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-448px;--y:-672px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Atash Dastur</strong><small>alexandra</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Atash Dastur</td>
+            <td>Ground</td>
+            <td class="num hot">9</td>
+            <td class="num">6</td>
+            <td class="num">0</td>
+            <td class="num guard">14</td>
+            <td class="num">+4</td>
+            <td class="num">+1</td>
+            <td class="num">10</td><td class="num">12</td><td class="num">16</td><td class="num">8</td><td class="num">14</td><td class="num">15</td>
+            <td class="saves">Tavan, Farr</td>
+            <td class="skills"><span class="skill-chip" title="spark_touch"><span class="pixel-icon" title="Atash Touch"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-112px;--y:-32px;--w:16px;--h:16px;--scale:1.5000;"></span></span><span>Atash Touch</span></span><span class="skill-chip" title="ember_shot"><span class="pixel-icon" title="Atash Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-110px;--y:-322px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Atash Bolt</span></span><span class="skill-chip" title="inner_flare"><span class="pixel-icon" title="Atash Farr"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-864px;--y:-352px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Atash Farr</span></span><span class="skill-chip" title="homing_sparks"><span class="pixel-icon" title="Seeking Atash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-64px;--y:-416px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Seeking Atash</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Dastur one_03 Pahlavan Roster Atash Touch Atash Bolt Atash Farr Seeking Atash">
+            <td class="identity">
+                <span class="pixel-icon" title="Dastur"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-160px;--y:-930px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Dastur</strong><small>one_03</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Atash Dastur</td>
+            <td>Ground</td>
+            <td class="num hot">10</td>
+            <td class="num">6</td>
+            <td class="num">0</td>
+            <td class="num guard">13</td>
+            <td class="num">+4</td>
+            <td class="num">+1</td>
+            <td class="num">10</td><td class="num">12</td><td class="num">14</td><td class="num">13</td><td class="num">16</td><td class="num">15</td>
+            <td class="saves">Tavan, Farr</td>
+            <td class="skills"><span class="skill-chip" title="spark_touch"><span class="pixel-icon" title="Atash Touch"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-112px;--y:-32px;--w:16px;--h:16px;--scale:1.5000;"></span></span><span>Atash Touch</span></span><span class="skill-chip" title="ember_shot"><span class="pixel-icon" title="Atash Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-110px;--y:-322px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Atash Bolt</span></span><span class="skill-chip" title="inner_flare"><span class="pixel-icon" title="Atash Farr"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-864px;--y:-352px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Atash Farr</span></span><span class="skill-chip" title="homing_sparks"><span class="pixel-icon" title="Seeking Atash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-64px;--y:-416px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Seeking Atash</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Gorz Warrior one_01 Pahlavan Roster Iron Gorz Nush-Daru Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Gorz Warrior"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-448px;--y:-514px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Gorz Warrior</strong><small>one_01</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">18</td>
+            <td class="num">5</td>
+            <td class="num">+1</td>
+            <td class="num guard">15</td>
+            <td class="num">+5</td>
+            <td class="num">+5</td>
+            <td class="num">18</td><td class="num">10</td><td class="num">16</td><td class="num">8</td><td class="num">10</td><td class="num">10</td>
+            <td class="saves">Zor, Tavan</td>
+            <td class="skills"><span class="skill-chip" title="iron_maul"><span class="pixel-icon" title="Iron Gorz"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-560px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Iron Gorz</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Kamandar one_05 Pahlavan Roster Kaman Shamshir Veil Step">
+            <td class="identity">
+                <span class="pixel-icon" title="Kamandar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-608px;--y:-674px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kamandar</strong><small>one_05</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Ranged</td>
+            <td>Ground</td>
+            <td class="num hot">12</td>
+            <td class="num">6</td>
+            <td class="num">+3</td>
+            <td class="num guard">13</td>
+            <td class="num">+5</td>
+            <td class="num">+2</td>
+            <td class="num">10</td><td class="num">16</td><td class="num">12</td><td class="num">10</td><td class="num">14</td><td class="num">10</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="skirmish_bow"><span class="pixel-icon" title="Kaman"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-752px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman</span></span><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="disengage"><span class="pixel-icon" title="Veil Step"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-320px;--y:-288px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Veil Step</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Neyzeh Shield one_06 Pahlavan Roster Neyzeh Shamshir Nush-Daru">
+            <td class="identity">
+                <span class="pixel-icon" title="Neyzeh Shield"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-544px;--y:-642px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Neyzeh Shield</strong><small>one_06</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">18</td>
+            <td class="num">5</td>
+            <td class="num">+1</td>
+            <td class="num guard">18</td>
+            <td class="num">+4</td>
+            <td class="num">+3</td>
+            <td class="num">16</td><td class="num">10</td><td class="num">16</td><td class="num">10</td><td class="num">12</td><td class="num">10</td>
+            <td class="saves">Zor, Tavan</td>
+            <td class="skills"><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Pahlavan steve Pahlavan Roster Gorz Strike Kaman Bolt Pahlavan Resolve War Drum">
+            <td class="identity">
+                <span class="pixel-icon" title="Pahlavan"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-608px;--y:-864px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pahlavan</strong><small>steve</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Pahlavan</td>
+            <td>Ground</td>
+            <td class="num hot">14</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">17</td>
+            <td class="num">+5</td>
+            <td class="num">+7</td>
+            <td class="num">16</td><td class="num">14</td><td class="num">15</td><td class="num">12</td><td class="num">10</td><td class="num">8</td>
+            <td class="saves">Zor, Tavan</td>
+            <td class="skills"><span class="skill-chip" title="cleaver_strike"><span class="pixel-icon" title="Gorz Strike"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-144px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Gorz Strike</span></span><span class="skill-chip" title="bolt_launcher"><span class="pixel-icon" title="Kaman Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-448px;--y:-352px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman Bolt</span></span><span class="skill-chip" title="grit_mend"><span class="pixel-icon" title="Pahlavan Resolve"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-512px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Pahlavan Resolve</span></span><span class="skill-chip" title="tempo_break"><span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>War Drum</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Pari becky Pahlavan Roster Pari Kicks Stomp War Drum Simurgh Grace">
+            <td class="identity">
+                <span class="pixel-icon" title="Pari"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-256px;--y:-288px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pari</strong><small>becky</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Rahnavard</td>
+            <td>Flying</td>
+            <td class="num hot">14</td>
+            <td class="num">9</td>
+            <td class="num">+6</td>
+            <td class="num guard">14</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">12</td><td class="num">20</td><td class="num">14</td><td class="num">8</td><td class="num">16</td><td class="num">20</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="front_kick"><span class="pixel-icon" title="Pari Kicks"><img src="combat_codex_assets/images/icon/2barefoot.png" alt="Pari Kicks icon"></span><span>Pari Kicks</span></span><span class="skill-chip" title="arrow"><span class="pixel-icon" title="Stomp"><img src="combat_codex_assets/images/icon/Heels.png" alt="Stomp icon"></span><span>Stomp</span></span><span class="skill-chip" title="tempo_break"><span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>War Drum</span></span><span class="skill-chip" title="field_mend"><span class="pixel-icon" title="Simurgh Grace"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Simurgh Grace</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Pari Adept one Pahlavan Roster Pari Kicks Neyzeh War Drum Simurgh Grace">
+            <td class="identity">
+                <span class="pixel-icon" title="Pari Adept"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-544px;--y:-994px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pari Adept</strong><small>one</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Rahnavard</td>
+            <td>Flying</td>
+            <td class="num hot">14</td>
+            <td class="num">9</td>
+            <td class="num">+6</td>
+            <td class="num guard">14</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">12</td><td class="num">20</td><td class="num">14</td><td class="num">8</td><td class="num">16</td><td class="num">20</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="front_kick"><span class="pixel-icon" title="Pari Kicks"><img src="combat_codex_assets/images/icon/2barefoot.png" alt="Pari Kicks icon"></span><span>Pari Kicks</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span><span class="skill-chip" title="tempo_break"><span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>War Drum</span></span><span class="skill-chip" title="field_mend"><span class="pixel-icon" title="Simurgh Grace"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Simurgh Grace</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Rahnavard bob Pahlavan Roster Shamshir Flash Kaman-e Rah Neshan-e Shekar Simurgh Grace">
+            <td class="identity">
+                <span class="pixel-icon" title="Rahnavard"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-448px;--y:-864px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Rahnavard</strong><small>bob</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Rahnavard</td>
+            <td>Ground</td>
+            <td class="num hot">14</td>
+            <td class="num">7</td>
+            <td class="num">+2</td>
+            <td class="num guard">14</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">12</td><td class="num">15</td><td class="num">14</td><td class="num">8</td><td class="num">16</td><td class="num">10</td>
+            <td class="saves">Zor, Chalaki</td>
+            <td class="skills"><span class="skill-chip" title="quick_blade"><span class="pixel-icon" title="Shamshir Flash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-64px;--y:-737px;--w:32px;--h:30px;--scale:0.7500;"></span></span><span>Shamshir Flash</span></span><span class="skill-chip" title="trail_bow"><span class="pixel-icon" title="Kaman-e Rah"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-816px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman-e Rah</span></span><span class="skill-chip" title="quarry_brand"><span class="pixel-icon" title="Neshan-e Shekar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-352px;--y:-288px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neshan-e Shekar</span></span><span class="skill-chip" title="field_mend"><span class="pixel-icon" title="Simurgh Grace"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Simurgh Grace</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Sarbaz one_04 Pahlavan Roster Shamshir Nush-Daru Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Sarbaz"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-160px;--y:-706px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Sarbaz</strong><small>one_04</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">16</td>
+            <td class="num">6</td>
+            <td class="num">+1</td>
+            <td class="num guard">16</td>
+            <td class="num">+4</td>
+            <td class="num">+3</td>
+            <td class="num">15</td><td class="num">12</td><td class="num">14</td><td class="num">10</td><td class="num">10</td><td class="num">10</td>
+            <td class="saves">Zor, Tavan</td>
+            <td class="skills"><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Savar one_02 Pahlavan Roster Gorz Strike Kaman Bolt Pahlavan Resolve War Drum">
+            <td class="identity">
+                <span class="pixel-icon" title="Savar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-448px;--y:-706px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Savar</strong><small>one_02</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Pahlavan</td>
+            <td>Mounted</td>
+            <td class="num hot">16</td>
+            <td class="num">8</td>
+            <td class="num">+3</td>
+            <td class="num guard">15</td>
+            <td class="num">+5</td>
+            <td class="num">+3</td>
+            <td class="num">15</td><td class="num">14</td><td class="num">14</td><td class="num">10</td><td class="num">12</td><td class="num">12</td>
+            <td class="saves">Zor, Chalaki</td>
+            <td class="skills"><span class="skill-chip" title="cleaver_strike"><span class="pixel-icon" title="Gorz Strike"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-144px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Gorz Strike</span></span><span class="skill-chip" title="bolt_launcher"><span class="pixel-icon" title="Kaman Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-448px;--y:-352px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman Bolt</span></span><span class="skill-chip" title="grit_mend"><span class="pixel-icon" title="Pahlavan Resolve"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-512px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Pahlavan Resolve</span></span><span class="skill-chip" title="tempo_break"><span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>War Drum</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Shamshirzan one_07 Pahlavan Roster Shamshir Flash Pari Kicks War Drum Nush-Daru">
+            <td class="identity">
+                <span class="pixel-icon" title="Shamshirzan"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Shamshirzan</strong><small>one_07</small></span>
+            </td>
+            <td><span class="pill">Pahlavan Roster</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">13</td>
+            <td class="num">7</td>
+            <td class="num">+4</td>
+            <td class="num guard">15</td>
+            <td class="num">+5</td>
+            <td class="num">+2</td>
+            <td class="num">11</td><td class="num">17</td><td class="num">13</td><td class="num">11</td><td class="num">13</td><td class="num">12</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="quick_blade"><span class="pixel-icon" title="Shamshir Flash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-64px;--y:-737px;--w:32px;--h:30px;--scale:0.7500;"></span></span><span>Shamshir Flash</span></span><span class="skill-chip" title="front_kick"><span class="pixel-icon" title="Pari Kicks"><img src="combat_codex_assets/images/icon/2barefoot.png" alt="Pari Kicks icon"></span><span>Pari Kicks</span></span><span class="skill-chip" title="tempo_break"><span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>War Drum</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Dastur Z one_40 Dastur Z Mehr Rasti Nush-Daru">
+            <td class="identity">
+                <span class="pixel-icon" title="Dastur Z"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-160px;--y:-162px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Dastur Z</strong><small>one_40</small></span>
+            </td>
+            <td><span class="pill">Dastur Z</span></td>
+            <td>Pharhad</td>
+            <td>Flying</td>
+            <td class="num hot">9</td>
+            <td class="num">6</td>
+            <td class="num">0</td>
+            <td class="num guard">14</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num">10</td><td class="num">10</td><td class="num">10</td><td class="num">10</td><td class="num">10</td><td class="num">10</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="love"><span class="pixel-icon" title="Mehr"><img src="combat_codex_assets/images/icon/Love.png" alt="Mehr icon"></span><span>Mehr</span></span><span class="skill-chip" title="truth"><span class="pixel-icon" title="Rasti"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-352px;--y:-482px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Rasti</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Pharhad farhad Pharhad Farr Restore Atash Ward Caravanserai Naan Nush-Daru Nush-Daru Nush-Daru">
+            <td class="identity">
+                <span class="pixel-icon" title="Pharhad"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_Denzi120117-1.png');--x:-0px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pharhad</strong><small>farhad</small></span>
+            </td>
+            <td><span class="pill">Pharhad</span></td>
+            <td>Pharhad</td>
+            <td>Flying</td>
+            <td class="num hot">110</td>
+            <td class="num">30</td>
+            <td class="num">+30</td>
+            <td class="num guard">30</td>
+            <td class="num">+20</td>
+            <td class="num">+20</td>
+            <td class="num">30</td><td class="num">1</td><td class="num">30</td><td class="num">30</td><td class="num">30</td><td class="num">30</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="divine_restore"><span class="pixel-icon" title="Farr Restore"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Farr Restore</span></span><span class="skill-chip" title="spark_ward"><span class="pixel-icon" title="Atash Ward"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-608px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Atash Ward</span></span><span class="skill-chip" title="safe_camp"><span class="pixel-icon" title="Caravanserai"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-768px;--y:-256px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Caravanserai</span></span><span class="skill-chip" title="field_breather"><span class="pixel-icon" title="Naan"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-640px;--y:-256px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Naan</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span> <span class="chip-count">x3</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Ankabut spider Divs and Beasts Ankabut Bite">
+            <td class="identity">
+                <span class="pixel-icon" title="Ankabut"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-640px;--y:-450px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Ankabut</strong><small>spider</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">20</td>
+            <td class="num">6</td>
+            <td class="num">+3</td>
+            <td class="num guard">12</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">12</td><td class="num">16</td><td class="num">12</td><td class="num">2</td><td class="num">10</td><td class="num">4</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="spider_bite"><span class="pixel-icon" title="Ankabut Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-288px;--y:-96px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Ankabut Bite</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Azhdaha-ye Sorkh red_dragon Divs and Beasts Azhdaha Bite Azhdaha Fire">
+            <td class="identity">
+                <span class="pixel-icon" title="Azhdaha-ye Sorkh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-160px;--y:-512px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Azhdaha-ye Sorkh</strong><small>red_dragon</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Flying</td>
+            <td class="num hot">210</td>
+            <td class="num">8</td>
+            <td class="num">+5</td>
+            <td class="num guard">19</td>
+            <td class="num">+10</td>
+            <td class="num">+8</td>
+            <td class="num">27</td><td class="num">12</td><td class="num">25</td><td class="num">16</td><td class="num">14</td><td class="num">21</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="red_dragon_bite"><span class="pixel-icon" title="Azhdaha Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-0px;--y:-32px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Azhdaha Bite</span></span><span class="skill-chip" title="red_dragon_breath"><span class="pixel-icon" title="Azhdaha Fire"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Azhdaha Fire</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Babr tiger Divs and Beasts Babr Pounce">
+            <td class="identity">
+                <span class="pixel-icon" title="Babr"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-256px;--y:-640px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Babr</strong><small>tiger</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">37</td>
+            <td class="num">8</td>
+            <td class="num">+3</td>
+            <td class="num guard">12</td>
+            <td class="num">+5</td>
+            <td class="num">+4</td>
+            <td class="num">17</td><td class="num">15</td><td class="num">14</td><td class="num">3</td><td class="num">12</td><td class="num">8</td>
+            <td class="saves">Zor, Chalaki</td>
+            <td class="skills"><span class="skill-chip" title="tiger_pounce"><span class="pixel-icon" title="Babr Pounce"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Babr Pounce</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Dastur-e Marg master_lich Divs and Beasts Marg Bolt">
+            <td class="identity">
+                <span class="pixel-icon" title="Dastur-e Marg"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-352px;--y:-864px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Dastur-e Marg</strong><small>master_lich</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Ground</td>
+            <td class="num hot">135</td>
+            <td class="num">6</td>
+            <td class="num">+6</td>
+            <td class="num guard">17</td>
+            <td class="num">+10</td>
+            <td class="num">+6</td>
+            <td class="num">11</td><td class="num">16</td><td class="num">16</td><td class="num">22</td><td class="num">18</td><td class="num">20</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="lich_bolt"><span class="pixel-icon" title="Marg Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Marg Bolt</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Div Sardar thistle_captain Divs and Beasts Shamshir Nush-Daru Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Div Sardar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/monsters.png');--x:-64px;--y:-0px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Div Sardar</strong><small>thistle_captain</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">21</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">17</td>
+            <td class="num">+8</td>
+            <td class="num">+3</td>
+            <td class="num">10</td><td class="num">14</td><td class="num">10</td><td class="num">10</td><td class="num">8</td><td class="num">10</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Div Scout thistle_scout Divs and Beasts Shamshir Kaman">
+            <td class="identity">
+                <span class="pixel-icon" title="Div Scout"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/monsters.png');--x:-0px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Div Scout</strong><small>thistle_scout</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Ranged</td>
+            <td>Ground</td>
+            <td class="num hot">7</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">15</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">9</td><td class="num">14</td><td class="num">10</td><td class="num">10</td><td class="num">8</td><td class="num">8</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="skirmish_bow"><span class="pixel-icon" title="Kaman"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-752px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Div Sepahdar thistle_warden Divs and Beasts Shamshir Kaman">
+            <td class="identity">
+                <span class="pixel-icon" title="Div Sepahdar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/monsters.png');--x:-64px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Div Sepahdar</strong><small>thistle_warden</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Ranged</td>
+            <td>Ground</td>
+            <td class="num hot">21</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">17</td>
+            <td class="num">+9</td>
+            <td class="num">+2</td>
+            <td class="num">10</td><td class="num">14</td><td class="num">10</td><td class="num">10</td><td class="num">8</td><td class="num">10</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="skirmish_bow"><span class="pixel-icon" title="Kaman"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-752px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kaman</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Div-e Bad djinni Divs and Beasts Storm Shamshir Desert Gale">
+            <td class="identity">
+                <span class="pixel-icon" title="Div-e Bad"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-352px;--y:-543px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Div-e Bad</strong><small>djinni</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Flying</td>
+            <td class="num hot">110</td>
+            <td class="num">9</td>
+            <td class="num">+5</td>
+            <td class="num guard">17</td>
+            <td class="num">+8</td>
+            <td class="num">+5</td>
+            <td class="num">21</td><td class="num">15</td><td class="num">18</td><td class="num">14</td><td class="num">16</td><td class="num">20</td>
+            <td class="saves">Zor, Chalaki, Tavan, Danesh, Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="djinni_scimitar"><span class="pixel-icon" title="Storm Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-192px;--y:-32px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Storm Shamshir</span></span><span class="skill-chip" title="djinni_gale"><span class="pixel-icon" title="Desert Gale"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-96px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Desert Gale</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Divak imp Divs and Beasts Divak Sting">
+            <td class="identity">
+                <span class="pixel-icon" title="Divak"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-352px;--y:-543px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Divak</strong><small>imp</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Flying</td>
+            <td class="num hot">10</td>
+            <td class="num">8</td>
+            <td class="num">+3</td>
+            <td class="num guard">13</td>
+            <td class="num">+5</td>
+            <td class="num">+1</td>
+            <td class="num">6</td><td class="num">17</td><td class="num">12</td><td class="num">11</td><td class="num">12</td><td class="num">14</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="imp_sting"><span class="pixel-icon" title="Divak Sting"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-96px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Divak Sting</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Divak-e Khun blood_imp Divs and Beasts Khun Bite">
+            <td class="identity">
+                <span class="pixel-icon" title="Divak-e Khun"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-352px;--y:-735px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Divak-e Khun</strong><small>blood_imp</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Flying</td>
+            <td class="num hot">18</td>
+            <td class="num">8</td>
+            <td class="num">+4</td>
+            <td class="num guard">14</td>
+            <td class="num">+6</td>
+            <td class="num">+2</td>
+            <td class="num">8</td><td class="num">18</td><td class="num">12</td><td class="num">10</td><td class="num">10</td><td class="num">14</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="blood_imp_bite"><span class="pixel-icon" title="Khun Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Khun Bite</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Divling thistlekin Divs and Beasts Shamshir Nush-Daru Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Divling"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/monsters.png');--x:-0px;--y:-0px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Divling</strong><small>thistlekin</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">7</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">15</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">8</td><td class="num">14</td><td class="num">10</td><td class="num">10</td><td class="num">8</td><td class="num">8</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="curved_blade"><span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shamshir</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Gur-Sar Div gnoll Divs and Beasts Gur-Sar Axe">
+            <td class="identity">
+                <span class="pixel-icon" title="Gur-Sar Div"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-256px;--y:-608px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Gur-Sar Div</strong><small>gnoll</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">22</td>
+            <td class="num">6</td>
+            <td class="num">+1</td>
+            <td class="num guard">13</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">14</td><td class="num">12</td><td class="num">12</td><td class="num">6</td><td class="num">10</td><td class="num">7</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="gnoll_axe"><span class="pixel-icon" title="Gur-Sar Axe"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-64px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Gur-Sar Axe</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Kafan-Pich mummy Divs and Beasts Kafan Fist">
+            <td class="identity">
+                <span class="pixel-icon" title="Kafan-Pich"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-448px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kafan-Pich</strong><small>mummy</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">58</td>
+            <td class="num">4</td>
+            <td class="num">0</td>
+            <td class="num guard">11</td>
+            <td class="num">+5</td>
+            <td class="num">+4</td>
+            <td class="num">16</td><td class="num">8</td><td class="num">16</td><td class="num">6</td><td class="num">10</td><td class="num">12</td>
+            <td class="saves">Tavan, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="mummy_fist"><span class="pixel-icon" title="Kafan Fist"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-0px;--y:-32px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kafan Fist</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Kazhdum scorpion Divs and Beasts Kazhdum Sting">
+            <td class="identity">
+                <span class="pixel-icon" title="Kazhdum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-640px;--y:-672px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kazhdum</strong><small>scorpion</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">28</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">13</td>
+            <td class="num">+4</td>
+            <td class="num">+3</td>
+            <td class="num">14</td><td class="num">13</td><td class="num">15</td><td class="num">1</td><td class="num">9</td><td class="num">3</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="scorpion_sting"><span class="pixel-icon" title="Kazhdum Sting"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-96px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kazhdum Sting</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Kerm-e Diraz longworm Divs and Beasts Kerm Bite">
+            <td class="identity">
+                <span class="pixel-icon" title="Kerm-e Diraz"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-736px;--y:-768px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kerm-e Diraz</strong><small>longworm</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">90</td>
+            <td class="num">4</td>
+            <td class="num">0</td>
+            <td class="num guard">15</td>
+            <td class="num">+7</td>
+            <td class="num">+5</td>
+            <td class="num">22</td><td class="num">8</td><td class="num">18</td><td class="num">2</td><td class="num">10</td><td class="num">4</td>
+            <td class="saves">Zor, Tavan</td>
+            <td class="skills"><span class="skill-chip" title="longworm_bite"><span class="pixel-icon" title="Kerm Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Kerm Bite</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Madar-e Tar madar_tar Divs and Beasts Madar-e Tar Bite">
+            <td class="identity">
+                <span class="pixel-icon" title="Madar-e Tar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-640px;--y:-768px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Madar-e Tar</strong><small>madar_tar</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">110</td>
+            <td class="num">7</td>
+            <td class="num">+3</td>
+            <td class="num guard">16</td>
+            <td class="num">+8</td>
+            <td class="num">+5</td>
+            <td class="num">20</td><td class="num">16</td><td class="num">18</td><td class="num">8</td><td class="num">13</td><td class="num">10</td>
+            <td class="saves">Zor, Tavan, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="webmother_bite"><span class="pixel-icon" title="Madar-e Tar Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Madar-e Tar Bite</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Mar-Dastur shamar Divs and Beasts Mar-Dastur Hex">
+            <td class="identity">
+                <span class="pixel-icon" title="Mar-Dastur"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-256px;--y:-704px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Mar-Dastur</strong><small>shamar</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Ground</td>
+            <td class="num hot">44</td>
+            <td class="num">6</td>
+            <td class="num">+4</td>
+            <td class="num guard">15</td>
+            <td class="num">+6</td>
+            <td class="num">+3</td>
+            <td class="num">10</td><td class="num">16</td><td class="num">12</td><td class="num">14</td><td class="num">12</td><td class="num">16</td>
+            <td class="saves">Kherad, Farr</td>
+            <td class="skills"><span class="skill-chip" title="shamar_hex"><span class="pixel-icon" title="Mar-Dastur Hex"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-128px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Mar-Dastur Hex</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Mordeh zombie Divs and Beasts Mordeh Slam">
+            <td class="identity">
+                <span class="pixel-icon" title="Mordeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-736px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Mordeh</strong><small>zombie</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">22</td>
+            <td class="num">4</td>
+            <td class="num">0</td>
+            <td class="num guard">8</td>
+            <td class="num">+3</td>
+            <td class="num">+1</td>
+            <td class="num">13</td><td class="num">6</td><td class="num">16</td><td class="num">3</td><td class="num">6</td><td class="num">5</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="rotting_slam"><span class="pixel-icon" title="Mordeh Slam"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Mordeh Slam</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Mountain Div cave_brute Divs and Beasts Iron Gorz Nush-Daru Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Mountain Div"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/monsters.png');--x:-0px;--y:-96px;--w:64px;--h:64px;--scale:0.5625;"></span></span>
+                <span><strong>Mountain Div</strong><small>cave_brute</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Ground</td>
+            <td class="num hot">27</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">16</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">15</td><td class="num">14</td><td class="num">13</td><td class="num">8</td><td class="num">11</td><td class="num">9</td>
+            <td class="saves">-</td>
+            <td class="skills"><span class="skill-chip" title="iron_maul"><span class="pixel-icon" title="Iron Gorz"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-560px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Iron Gorz</span></span><span class="skill-chip" title="salve_vial"><span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Nush-Daru</span></span><span class="skill-chip" title="spear"><span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Nim-Div ridge_hound Divs and Beasts Nim-Div Bite">
+            <td class="identity">
+                <span class="pixel-icon" title="Nim-Div"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-160px;--y:-736px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Nim-Div</strong><small>ridge_hound</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Ranged</td>
+            <td>Ground</td>
+            <td class="num hot">11</td>
+            <td class="num">8</td>
+            <td class="num">+2</td>
+            <td class="num guard">13</td>
+            <td class="num">+4</td>
+            <td class="num">+2</td>
+            <td class="num">12</td><td class="num">15</td><td class="num">12</td><td class="num">3</td><td class="num">12</td><td class="num">6</td>
+            <td class="saves">Kherad</td>
+            <td class="skills"><span class="skill-chip" title="fang_lunge"><span class="pixel-icon" title="Nim-Div Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-96px;--y:-352px;--w:31px;--h:31px;--scale:0.7742;"></span></span><span>Nim-Div Bite</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Ravan ghost Divs and Beasts Ravan Touch">
+            <td class="identity">
+                <span class="pixel-icon" title="Ravan"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_Denzi120117-1.png');--x:-96px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Ravan</strong><small>ghost</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Flying</td>
+            <td class="num hot">36</td>
+            <td class="num">8</td>
+            <td class="num">+3</td>
+            <td class="num guard">13</td>
+            <td class="num">+6</td>
+            <td class="num">+3</td>
+            <td class="num">7</td><td class="num">16</td><td class="num">10</td><td class="num">10</td><td class="num">14</td><td class="num">16</td>
+            <td class="saves">Danesh, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="ghost_touch"><span class="pixel-icon" title="Ravan Touch"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-64px;--y:-192px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Ravan Touch</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Sag-e Dozakh hell_hound Divs and Beasts Dozakh Bite Dozakh Breath">
+            <td class="identity">
+                <span class="pixel-icon" title="Sag-e Dozakh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-160px;--y:-960px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Sag-e Dozakh</strong><small>hell_hound</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">45</td>
+            <td class="num">7</td>
+            <td class="num">+2</td>
+            <td class="num guard">14</td>
+            <td class="num">+5</td>
+            <td class="num">+3</td>
+            <td class="num">17</td><td class="num">12</td><td class="num">15</td><td class="num">6</td><td class="num">13</td><td class="num">6</td>
+            <td class="saves">Tavan, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="hell_hound_bite"><span class="pixel-icon" title="Dozakh Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Dozakh Bite</span></span><span class="skill-chip" title="hell_hound_breath"><span class="pixel-icon" title="Dozakh Breath"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Dozakh Breath</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Samandar salamander Divs and Beasts Burning Neyzeh">
+            <td class="identity">
+                <span class="pixel-icon" title="Samandar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-352px;--y:-832px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Samandar</strong><small>salamander</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">90</td>
+            <td class="num">6</td>
+            <td class="num">+2</td>
+            <td class="num guard">15</td>
+            <td class="num">+7</td>
+            <td class="num">+5</td>
+            <td class="num">18</td><td class="num">14</td><td class="num">16</td><td class="num">10</td><td class="num">10</td><td class="num">12</td>
+            <td class="saves">Tavan, Farr</td>
+            <td class="skills"><span class="skill-chip" title="salamander_spear"><span class="pixel-icon" title="Burning Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-224px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Burning Neyzeh</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Saye shadow Divs and Beasts Saye Drain">
+            <td class="identity">
+                <span class="pixel-icon" title="Saye"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090830-3.PNG');--x:-640px;--y:-320px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Saye</strong><small>shadow</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">16</td>
+            <td class="num">8</td>
+            <td class="num">+4</td>
+            <td class="num guard">12</td>
+            <td class="num">+5</td>
+            <td class="num">+2</td>
+            <td class="num">6</td><td class="num">16</td><td class="num">10</td><td class="num">6</td><td class="num">10</td><td class="num">8</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="shadow_drain"><span class="pixel-icon" title="Saye Drain"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-160px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Saye Drain</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Saye-ye Tarik shade Divs and Beasts Tarik Blade">
+            <td class="identity">
+                <span class="pixel-icon" title="Saye-ye Tarik"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090918-1.PNG');--x:-256px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Saye-ye Tarik</strong><small>shade</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Magic</td>
+            <td>Ground</td>
+            <td class="num hot">32</td>
+            <td class="num">8</td>
+            <td class="num">+5</td>
+            <td class="num guard">14</td>
+            <td class="num">+7</td>
+            <td class="num">+3</td>
+            <td class="num">8</td><td class="num">18</td><td class="num">12</td><td class="num">10</td><td class="num">12</td><td class="num">12</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="shade_blade"><span class="pixel-icon" title="Tarik Blade"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-32px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Tarik Blade</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Shir lion Divs and Beasts Shir Pounce">
+            <td class="identity">
+                <span class="pixel-icon" title="Shir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_Denzi120117-1.png');--x:-224px;--y:-98px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Shir</strong><small>lion</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">42</td>
+            <td class="num">8</td>
+            <td class="num">+3</td>
+            <td class="num guard">13</td>
+            <td class="num">+6</td>
+            <td class="num">+4</td>
+            <td class="num">17</td><td class="num">15</td><td class="num">15</td><td class="num">3</td><td class="num">12</td><td class="num">8</td>
+            <td class="saves">Zor, Chalaki</td>
+            <td class="skills"><span class="skill-chip" title="lion_pounce"><span class="pixel-icon" title="Shir Pounce"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-128px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Shir Pounce</span></span></td>
+        </tr>
+    
+
+        <tr data-search="Tundak quickling Divs and Beasts Tundak Cut">
+            <td class="identity">
+                <span class="pixel-icon" title="Tundak"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/32x32_monsters_slashem_Denzi090824-1.PNG');--x:-448px;--y:-704px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Tundak</strong><small>quickling</small></span>
+            </td>
+            <td><span class="pill">Divs and Beasts</span></td>
+            <td>Melee</td>
+            <td>Ground</td>
+            <td class="num hot">18</td>
+            <td class="num">12</td>
+            <td class="num">+8</td>
+            <td class="num guard">16</td>
+            <td class="num">+6</td>
+            <td class="num">+2</td>
+            <td class="num">7</td><td class="num">22</td><td class="num">12</td><td class="num">10</td><td class="num">12</td><td class="num">12</td>
+            <td class="saves">Chalaki, Kherad</td>
+            <td class="skills"><span class="skill-chip" title="quickling_cut"><span class="pixel-icon" title="Tundak Cut"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-32px;--w:32px;--h:32px;--scale:0.7500;"></span></span><span>Tundak Cut</span></span></td>
+        </tr>
+    
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-head">
+            <h2>Skill Comparison</h2>
+            <input class="search" type="search" data-table-search="skills" placeholder="Search skills, saves, damage, or descriptions">
+        </div>
+        <div class="table-wrap">
+            <table id="skills">
+                <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Effect</th>
+                        <th>Cost</th>
+                        <th>Range / Shape</th>
+                        <th>Power</th>
+                        <th>Type</th>
+                        <th>Trial</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr data-search="Ankabut Bite spider_bite Damage Poison Venomous bite.">
+            <td class="identity">
+                <span class="pixel-icon" title="Ankabut Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-288px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Ankabut Bite</strong><small>spider_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Poison</td>
+            <td>-</td>
+            <td class="description">Venomous bite.</td>
+        </tr>
+    
+
+        <tr data-search="Atash Bolt ember_shot Damage Slashing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Atash Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-110px;--y:-322px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Atash Bolt</strong><small>ember_shot</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-24</td>
+            <td>1d10</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Atash Farr inner_flare Utility Slashing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Atash Farr"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-864px;--y:-352px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Atash Farr</strong><small>inner_flare</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Bonus</td>
+            <td>Touch</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Atash Touch spark_touch Damage Slashing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Atash Touch"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/scifi_effects_animated_Denzi130311-1.png');--x:-112px;--y:-32px;--w:16px;--h:16px;--scale:2.2500;"></span></span>
+                <span><strong>Atash Touch</strong><small>spark_touch</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Atash Ward spark_ward Damage Radiant -">
+            <td class="identity">
+                <span class="pixel-icon" title="Atash Ward"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-608px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Atash Ward</strong><small>spark_ward</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Free</td>
+            <td>50 (Sphere 30)</td>
+            <td>10d20+20</td>
+            <td>Radiant</td>
+            <td>Farr 30</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Auto Move auto_move Utility Slashing Auto Move">
+            <td class="identity">
+                <span class="pixel-icon" title="Auto Move"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-640px;--y:-416px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Auto Move</strong><small>auto_move</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Free</td>
+            <td>Touch</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Auto Move</td>
+        </tr>
+    
+
+        <tr data-search="Azhdaha Bite red_dragon_bite Damage Piercing Massive fangs.">
+            <td class="identity">
+                <span class="pixel-icon" title="Azhdaha Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-0px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Azhdaha Bite</strong><small>red_dragon_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>3d10</td>
+            <td>Piercing</td>
+            <td>-</td>
+            <td class="description">Massive fangs.</td>
+        </tr>
+    
+
+        <tr data-search="Azhdaha Fire red_dragon_breath Damage Fire A long line-of-sight blast of fire.">
+            <td class="identity">
+                <span class="pixel-icon" title="Azhdaha Fire"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Azhdaha Fire</strong><small>red_dragon_breath</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-8</td>
+            <td>6d10</td>
+            <td>Fire</td>
+            <td>-</td>
+            <td class="description">A long line-of-sight blast of fire.</td>
+        </tr>
+    
+
+        <tr data-search="Babr Pounce tiger_pounce Damage Slashing Claws slam the target down; Zor trial or fall prone.">
+            <td class="identity">
+                <span class="pixel-icon" title="Babr Pounce"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-192px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Babr Pounce</strong><small>tiger_pounce</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Slashing</td>
+            <td>Zor 13 fail: prone</td>
+            <td class="description">Claws slam the target down; Zor trial or fall prone.</td>
+        </tr>
+    
+
+        <tr data-search="Burning Neyzeh salamander_spear Damage Fire Reach weapon heated by inner fire.">
+            <td class="identity">
+                <span class="pixel-icon" title="Burning Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Burning Neyzeh</strong><small>salamander_spear</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>1-2</td>
+            <td>2d8</td>
+            <td>Fire</td>
+            <td>-</td>
+            <td class="description">Reach weapon heated by inner fire.</td>
+        </tr>
+    
+
+        <tr data-search="Caravanserai safe_camp Heal / Restore Slashing The party reaches a caravanserai. All resources and HP fully restored.">
+            <td class="identity">
+                <span class="pixel-icon" title="Caravanserai"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-768px;--y:-256px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Caravanserai</strong><small>safe_camp</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Free</td>
+            <td>Touch</td>
+            <td>Restore</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">The party reaches a caravanserai. All resources and HP fully restored.</td>
+        </tr>
+    
+
+        <tr data-search="Desert Gale djinni_gale Damage Lightning A line-of-sight blast of cutting storm wind.">
+            <td class="identity">
+                <span class="pixel-icon" title="Desert Gale"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Desert Gale</strong><small>djinni_gale</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-6</td>
+            <td>2d8</td>
+            <td>Lightning</td>
+            <td>-</td>
+            <td class="description">A line-of-sight blast of cutting storm wind.</td>
+        </tr>
+    
+
+        <tr data-search="Divak Sting imp_sting Damage Poison Tiny poisoned barb.">
+            <td class="identity">
+                <span class="pixel-icon" title="Divak Sting"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Divak Sting</strong><small>imp_sting</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d6</td>
+            <td>Poison</td>
+            <td>Tavan 11 fail: poisoned</td>
+            <td class="description">Tiny poisoned barb.</td>
+        </tr>
+    
+
+        <tr data-search="Dozakh Bite hell_hound_bite Damage Fire Burning jaws.">
+            <td class="identity">
+                <span class="pixel-icon" title="Dozakh Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Dozakh Bite</strong><small>hell_hound_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Fire</td>
+            <td>-</td>
+            <td class="description">Burning jaws.</td>
+        </tr>
+    
+
+        <tr data-search="Dozakh Breath hell_hound_breath Damage Fire A short line-of-sight blast of fire.">
+            <td class="identity">
+                <span class="pixel-icon" title="Dozakh Breath"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Dozakh Breath</strong><small>hell_hound_breath</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-5</td>
+            <td>2d8</td>
+            <td>Fire</td>
+            <td>-</td>
+            <td class="description">A short line-of-sight blast of fire.</td>
+        </tr>
+    
+
+        <tr data-search="Farr Restore divine_restore Heal / Restore Radiant -">
+            <td class="identity">
+                <span class="pixel-icon" title="Farr Restore"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Farr Restore</strong><small>divine_restore</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Free</td>
+            <td>120 (Sphere 30)</td>
+            <td>1d20</td>
+            <td>Radiant</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Fulad Brand longsword Damage Slashing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Fulad Brand"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-816px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Fulad Brand</strong><small>longsword</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Gorz Strike cleaver_strike Damage Slashing Gorz blow: graze on miss">
+            <td class="identity">
+                <span class="pixel-icon" title="Gorz Strike"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-144px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Gorz Strike</strong><small>cleaver_strike</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Gorz blow: graze on miss</td>
+        </tr>
+    
+
+        <tr data-search="Gur-Sar Axe gnoll_axe Damage Slashing A heavy chopping blow.">
+            <td class="identity">
+                <span class="pixel-icon" title="Gur-Sar Axe"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-64px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Gur-Sar Axe</strong><small>gnoll_axe</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d12</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">A heavy chopping blow.</td>
+        </tr>
+    
+
+        <tr data-search="Iron Gorz iron_maul Damage Piercing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Iron Gorz"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-560px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Iron Gorz</strong><small>iron_maul</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d8</td>
+            <td>Piercing</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Kafan Fist mummy_fist Damage Necrotic A dry strike wrapped in old curses.">
+            <td class="identity">
+                <span class="pixel-icon" title="Kafan Fist"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-0px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kafan Fist</strong><small>mummy_fist</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d8</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">A dry strike wrapped in old curses.</td>
+        </tr>
+    
+
+        <tr data-search="Kaman skirmish_bow Damage Slashing Kaman shot">
+            <td class="identity">
+                <span class="pixel-icon" title="Kaman"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-752px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kaman</strong><small>skirmish_bow</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-16</td>
+            <td>1d6</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Kaman shot</td>
+        </tr>
+    
+
+        <tr data-search="Kaman Bolt bolt_launcher Damage Slashing Kaman shot: push 10 ft">
+            <td class="identity">
+                <span class="pixel-icon" title="Kaman Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-448px;--y:-352px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kaman Bolt</strong><small>bolt_launcher</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-20</td>
+            <td>1d10</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Kaman shot: push 10 ft</td>
+        </tr>
+    
+
+        <tr data-search="Kaman-e Rah trail_bow Damage Slashing Slow target by 1 tile">
+            <td class="identity">
+                <span class="pixel-icon" title="Kaman-e Rah"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-352px;--y:-816px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kaman-e Rah</strong><small>trail_bow</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-30</td>
+            <td>1d8</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Slow target by 1 tile</td>
+        </tr>
+    
+
+        <tr data-search="Kazhdum Sting scorpion_sting Damage Poison Stinger full of venom.">
+            <td class="identity">
+                <span class="pixel-icon" title="Kazhdum Sting"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-96px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kazhdum Sting</strong><small>scorpion_sting</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Poison</td>
+            <td>-</td>
+            <td class="description">Stinger full of venom.</td>
+        </tr>
+    
+
+        <tr data-search="Kerm Bite longworm_bite Damage Piercing Crushing underground bite.">
+            <td class="identity">
+                <span class="pixel-icon" title="Kerm Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Kerm Bite</strong><small>longworm_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>3d8</td>
+            <td>Piercing</td>
+            <td>-</td>
+            <td class="description">Crushing underground bite.</td>
+        </tr>
+    
+
+        <tr data-search="Khun Bite blood_imp_bite Damage Necrotic A hungry bite that drains warmth.">
+            <td class="identity">
+                <span class="pixel-icon" title="Khun Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Khun Bite</strong><small>blood_imp_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">A hungry bite that drains warmth.</td>
+        </tr>
+    
+
+        <tr data-search="Madar-e Tar Bite webmother_bite Damage Poison Huge venomous bite.">
+            <td class="identity">
+                <span class="pixel-icon" title="Madar-e Tar Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Madar-e Tar Bite</strong><small>webmother_bite</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>3d8</td>
+            <td>Poison</td>
+            <td>-</td>
+            <td class="description">Huge venomous bite.</td>
+        </tr>
+    
+
+        <tr data-search="Mar-Dastur Hex shamar_hex Damage Psychic A bitter curse spoken at range.">
+            <td class="identity">
+                <span class="pixel-icon" title="Mar-Dastur Hex"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-128px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Mar-Dastur Hex</strong><small>shamar_hex</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-5</td>
+            <td>2d8</td>
+            <td>Psychic</td>
+            <td>-</td>
+            <td class="description">A bitter curse spoken at range.</td>
+        </tr>
+    
+
+        <tr data-search="Marg Bolt lich_bolt Damage Necrotic A long-range death bolt.">
+            <td class="identity">
+                <span class="pixel-icon" title="Marg Bolt"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Marg Bolt</strong><small>lich_bolt</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>2-10</td>
+            <td>4d8</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">A long-range death bolt.</td>
+        </tr>
+    
+
+        <tr data-search="Mehr love Convert Slashing Touch an enemy and they become your ally.">
+            <td class="identity">
+                <span class="pixel-icon" title="Mehr"><img src="combat_codex_assets/images/icon/Love.png" alt="Mehr icon"></span>
+                <span><strong>Mehr</strong><small>love</small></span>
+            </td>
+            <td><span class="pill skill-kind">Convert</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>Ally conversion</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Touch an enemy and they become your ally.</td>
+        </tr>
+    
+
+        <tr data-search="Mordeh Slam rotting_slam Damage Bludgeoning Heavy dead-flesh blow; Tavan trial or fall prone.">
+            <td class="identity">
+                <span class="pixel-icon" title="Mordeh Slam"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-128px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Mordeh Slam</strong><small>rotting_slam</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d8</td>
+            <td>Bludgeoning</td>
+            <td>Tavan 12 fail: prone</td>
+            <td class="description">Heavy dead-flesh blow; Tavan trial or fall prone.</td>
+        </tr>
+    
+
+        <tr data-search="Naan field_breather Heal / Restore Slashing Share naan between encounters. Pahlavan Resolve, War Drum, and focus recover.">
+            <td class="identity">
+                <span class="pixel-icon" title="Naan"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-640px;--y:-256px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Naan</strong><small>field_breather</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Free</td>
+            <td>Touch</td>
+            <td>Restore</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Share naan between encounters. Pahlavan Resolve, War Drum, and focus recover.</td>
+        </tr>
+    
+
+        <tr data-search="Neshan-e Shekar quarry_brand Utility Slashing Bonus Action: mark one enemy. Hits deal +1d6 Farr damage. 2 free uses per Caravanserai.">
+            <td class="identity">
+                <span class="pixel-icon" title="Neshan-e Shekar"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-352px;--y:-288px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Neshan-e Shekar</strong><small>quarry_brand</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Bonus</td>
+            <td>2-90</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Bonus Action: mark one enemy. Hits deal +1d6 Farr damage. 2 free uses per Caravanserai.</td>
+        </tr>
+    
+
+        <tr data-search="Neyzeh spear Damage Piercing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Neyzeh"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-256px;--y:-544px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Neyzeh</strong><small>spear</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>4</td>
+            <td>1d6</td>
+            <td>Piercing</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Nim-Div Bite fang_lunge Damage Slashing -">
+            <td class="identity">
+                <span class="pixel-icon" title="Nim-Div Bite"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-96px;--y:-352px;--w:31px;--h:31px;--scale:1.1613;"></span></span>
+                <span><strong>Nim-Div Bite</strong><small>fang_lunge</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Slashing</td>
+            <td>Zor 11 fail: prone</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Nush-Daru salve_vial Heal / Restore Slashing Heal 2d4+2">
+            <td class="identity">
+                <span class="pixel-icon" title="Nush-Daru"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-576px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Nush-Daru</strong><small>salve_vial</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d4+2</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Heal 2d4+2</td>
+        </tr>
+    
+
+        <tr data-search="Pahlavan Resolve grit_mend Heal / Restore Slashing Bonus: Heal 1d10 +2">
+            <td class="identity">
+                <span class="pixel-icon" title="Pahlavan Resolve"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-512px;--y:-224px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pahlavan Resolve</strong><small>grit_mend</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Bonus</td>
+            <td>Touch</td>
+            <td>1d12</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Bonus: Heal 1d10 +2</td>
+        </tr>
+    
+
+        <tr data-search="Pari Kicks front_kick Damage Bludgeoning Neshan: next attack gains Farr">
+            <td class="identity">
+                <span class="pixel-icon" title="Pari Kicks"><img src="combat_codex_assets/images/icon/2barefoot.png" alt="Pari Kicks icon"></span>
+                <span><strong>Pari Kicks</strong><small>front_kick</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>1-2</td>
+            <td>1d6+4</td>
+            <td>Bludgeoning</td>
+            <td>Chalaki 19 fail: prone</td>
+            <td class="description">Neshan: next attack gains Farr</td>
+        </tr>
+    
+
+        <tr data-search="Pharhad Shrine pharhad_idol Heal / Restore Slashing Stand next to the shrine between encounters to bring every dead pahlavan back to life.">
+            <td class="identity">
+                <span class="pixel-icon" title="Pharhad Shrine"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-768px;--y:-192px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Pharhad Shrine</strong><small>pharhad_idol</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Free</td>
+            <td>Touch</td>
+            <td>Restore</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Stand next to the shrine between encounters to bring every dead pahlavan back to life.</td>
+        </tr>
+    
+
+        <tr data-search="Rasti truth Convert Radiant Visible enemies within 4 tiles make a Kherad Trial 19 or become your allies.">
+            <td class="identity">
+                <span class="pixel-icon" title="Rasti"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-352px;--y:-482px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Rasti</strong><small>truth</small></span>
+            </td>
+            <td><span class="pill skill-kind">Convert</span></td>
+            <td>Action</td>
+            <td>4 (Sphere 4)</td>
+            <td>Ally conversion</td>
+            <td>-</td>
+            <td>Kherad 17</td>
+            <td class="description">Visible enemies within 4 tiles make a Kherad Trial 19 or become your allies.</td>
+        </tr>
+    
+
+        <tr data-search="Ravan Touch ghost_touch Damage Necrotic A wandering spirit&#x27;s touch that chills the spirit.">
+            <td class="identity">
+                <span class="pixel-icon" title="Ravan Touch"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-64px;--y:-192px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Ravan Touch</strong><small>ghost_touch</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>3d6</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">A wandering spirit&#x27;s touch that chills the spirit.</td>
+        </tr>
+    
+
+        <tr data-search="Saye Drain shadow_drain Damage Necrotic Cold saye reaches through armor.">
+            <td class="identity">
+                <span class="pixel-icon" title="Saye Drain"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-160px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Saye Drain</strong><small>shadow_drain</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">Cold saye reaches through armor.</td>
+        </tr>
+    
+
+        <tr data-search="Seeking Atash homing_sparks Damage Psychic -">
+            <td class="identity">
+                <span class="pixel-icon" title="Seeking Atash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-64px;--y:-416px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Seeking Atash</strong><small>homing_sparks</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>1-24</td>
+            <td>3d4+3</td>
+            <td>Psychic</td>
+            <td>-</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Shamshir curved_blade Damage Slashing Shamshir slash">
+            <td class="identity">
+                <span class="pixel-icon" title="Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-160px;--y:-192px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Shamshir</strong><small>curved_blade</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d6</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Shamshir slash</td>
+        </tr>
+    
+
+        <tr data-search="Shamshir Flash quick_blade Damage Slashing Neshan: next attack gains Farr">
+            <td class="identity">
+                <span class="pixel-icon" title="Shamshir Flash"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_weapons_slashem_Denzi090927-2.PNG');--x:-64px;--y:-737px;--w:32px;--h:30px;--scale:1.1250;"></span></span>
+                <span><strong>Shamshir Flash</strong><small>quick_blade</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d6</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Neshan: next attack gains Farr</td>
+        </tr>
+    
+
+        <tr data-search="Shir Pounce lion_pounce Damage Slashing Raking leap; Zor trial or fall prone.">
+            <td class="identity">
+                <span class="pixel-icon" title="Shir Pounce"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-256px;--y:-128px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Shir Pounce</strong><small>lion_pounce</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6</td>
+            <td>Slashing</td>
+            <td>Zor 13 fail: prone</td>
+            <td class="description">Raking leap; Zor trial or fall prone.</td>
+        </tr>
+    
+
+        <tr data-search="Simurgh Grace field_mend Heal / Restore Slashing Touch to heal 2d8 + Kherad [1 focus]">
+            <td class="identity">
+                <span class="pixel-icon" title="Simurgh Grace"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-608px;--y:-160px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Simurgh Grace</strong><small>field_mend</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d8</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Touch to heal 2d8 + Kherad [1 focus]</td>
+        </tr>
+    
+
+        <tr data-search="Stomp arrow Damage Bludgeoning -">
+            <td class="identity">
+                <span class="pixel-icon" title="Stomp"><img src="combat_codex_assets/images/icon/Heels.png" alt="Stomp icon"></span>
+                <span><strong>Stomp</strong><small>arrow</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d6+8</td>
+            <td>Bludgeoning</td>
+            <td>Chalaki 19 fail: prone</td>
+            <td class="description">-</td>
+        </tr>
+    
+
+        <tr data-search="Storm Shamshir djinni_scimitar Damage Slashing Shamshir carried by sudden wind.">
+            <td class="identity">
+                <span class="pixel-icon" title="Storm Shamshir"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-192px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Storm Shamshir</strong><small>djinni_scimitar</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d8</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Shamshir carried by sudden wind.</td>
+        </tr>
+    
+
+        <tr data-search="Swift Step dash Utility Slashing Gain extra movement">
+            <td class="identity">
+                <span class="pixel-icon" title="Swift Step"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-320px;--y:-384px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Swift Step</strong><small>dash</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Gain extra movement</td>
+        </tr>
+    
+
+        <tr data-search="Tarik Blade shade_blade Damage Necrotic A dark blade-shaped wound.">
+            <td class="identity">
+                <span class="pixel-icon" title="Tarik Blade"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Tarik Blade</strong><small>shade_blade</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>2d8</td>
+            <td>Necrotic</td>
+            <td>-</td>
+            <td class="description">A dark blade-shaped wound.</td>
+        </tr>
+    
+
+        <tr data-search="Tundak Cut quickling_cut Damage Slashing Too fast to see clearly.">
+            <td class="identity">
+                <span class="pixel-icon" title="Tundak Cut"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_spell_icons_Denzi090528-1.PNG');--x:-224px;--y:-32px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Tundak Cut</strong><small>quickling_cut</small></span>
+            </td>
+            <td><span class="pill skill-kind">Damage</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>1d6</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Too fast to see clearly.</td>
+        </tr>
+    
+
+        <tr data-search="Veil Step disengage Utility Slashing Avoid parting strikes">
+            <td class="identity">
+                <span class="pixel-icon" title="Veil Step"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-320px;--y:-288px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Veil Step</strong><small>disengage</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Avoid parting strikes</td>
+        </tr>
+    
+
+        <tr data-search="War Drum tempo_break Utility Slashing Free action: after attacking, gain one more attack. 1 per Naan.">
+            <td class="identity">
+                <span class="pixel-icon" title="War Drum"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-928px;--y:-386px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>War Drum</strong><small>tempo_break</small></span>
+            </td>
+            <td><span class="pill skill-kind">Utility</span></td>
+            <td>Free</td>
+            <td>Touch</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td class="description">Free action: after attacking, gain one more attack. 1 per Naan.</td>
+        </tr>
+    
+
+        <tr data-search="Yari help Heal / Restore Slashing Touch to steady a fallen ally">
+            <td class="identity">
+                <span class="pixel-icon" title="Yari"><span class="sprite-crop" style="--sheet:url('combat_codex_assets/images/icon/32x32_items_Denzi090723-1.PNG');--x:-640px;--y:-384px;--w:32px;--h:32px;--scale:1.1250;"></span></span>
+                <span><strong>Yari</strong><small>help</small></span>
+            </td>
+            <td><span class="pill skill-kind">Heal / Restore</span></td>
+            <td>Action</td>
+            <td>Touch</td>
+            <td>Restore</td>
+            <td>Slashing</td>
+            <td>-</td>
+            <td class="description">Touch to steady a fallen ally</td>
+        </tr>
+    
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        Generated from databases/combatant_database.tscn and databases/skill_database.tscn.
+    </footer>
+</main>
+<script>
+    document.querySelectorAll("[data-table-search]").forEach((input) => {
+        const table = document.getElementById(input.dataset.tableSearch);
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        input.addEventListener("input", () => {
+            const query = input.value.trim().toLowerCase();
+            rows.forEach((row) => {
+                const haystack = (row.dataset.search || row.textContent).toLowerCase();
+                row.classList.toggle("hidden", query.length > 0 && !haystack.includes(query));
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -228,6 +228,19 @@
 
     .card ul { padding-left: 18px; margin: 0; }
 
+    .reference-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: center;
+      min-height: 0;
+    }
+
+    .reference-card p {
+      max-width: 760px;
+      margin-bottom: 0;
+    }
+
     .feature-banner {
       border-radius: 8px;
       overflow: hidden;
@@ -399,6 +412,7 @@
       .split,
       .creator-panel,
       .grid,
+      .reference-card,
       .play-box { grid-template-columns: 1fr; }
       .navlinks { display: none; }
       section { padding: 52px 0; }
@@ -415,6 +429,7 @@
       <div class="navlinks">
         <a href="#game">Game</a>
         <a href="#features">Features</a>
+        <a href="combatants_and_skills.html">Codex</a>
         <a href="#play-now">Play</a>
         <a href="#studio">About Me</a>
         <a href="#contact">Contact</a>
@@ -443,6 +458,7 @@
         <div class="buttons">
           <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road" target="_blank" rel="noopener">Wishlist on Steam</a>
           <a class="btn secondary" href="https://teymurian-studios.itch.io/tpr" target="_blank" rel="noopener">Play on itch.io</a>
+          <a class="btn secondary" href="combatants_and_skills.html">View Combat Codex</a>
         </div>
       </div>
 
@@ -495,6 +511,18 @@
       </div>
     </section>
 
+    <section class="wrap" id="codex">
+      <div class="card reference-card">
+        <div>
+          <h2>Combat Codex</h2>
+          <p>
+            Compare every pahlavan, div, beast, and skill in the current build with searchable tables and icon previews.
+          </p>
+        </div>
+        <a class="btn primary" href="combatants_and_skills.html">Open the Codex</a>
+      </div>
+    </section>
+
     <section class="wrap">
       <div class="split">
         <div class="quote">
@@ -529,6 +557,7 @@
           <div class="buttons">
             <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road" target="_blank" rel="noopener">Wishlist on Steam</a>
             <a class="btn secondary" href="https://teymurian-studios.itch.io/tpr" target="_blank" rel="noopener">Play on itch.io</a>
+            <a class="btn secondary" href="combatants_and_skills.html">Combat Codex</a>
           </div>
         </div>
       </div>
@@ -617,6 +646,7 @@
         <div class="buttons">
           <a class="btn primary" href="https://store.steampowered.com/app/4706510/The_Pharhad_Road" target="_blank" rel="noopener">View on Steam</a>
           <a class="btn secondary" href="https://teymurian-studios.itch.io/tpr" target="_blank" rel="noopener">Play on itch.io</a>
+          <a class="btn secondary" href="combatants_and_skills.html">Combat Codex</a>
           <a class="btn secondary" href="https://www.instagram.com/teymurian_studios" target="_blank" rel="noopener">Instagram</a>
           <a class="btn secondary" href="mailto:farhad@uw.edu?subject=The%20Pharhad%20Road">Contact the Studio</a>
         </div>
