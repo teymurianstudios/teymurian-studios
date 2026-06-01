@@ -196,7 +196,7 @@ def make_flyer() -> tuple[Image.Image, list[tuple[int, int, int, int, str]]]:
         16,
     )
 
-    # Small mode badges
+    # Large mode buttons
     badges = [
         ("Lead Pahlavans", blue),
         ("Command Divs", red),
@@ -204,13 +204,15 @@ def make_flyer() -> tuple[Image.Image, list[tuple[int, int, int, int, str]]]:
         ("Pahlavan Chess", gold),
     ]
     x = 145
-    y = 1350
+    y = 1322
+    badge_gap = 22
+    badge_w = (W - (x * 2) - (badge_gap * (len(badges) - 1))) // len(badges)
+    badge_h = 112
     for label, color in badges:
-        tw, th = text_size(draw, label, FONT_SMALL)
-        rect = (x, y, x + tw + 44, y + 72)
-        draw.rounded_rectangle(rect, radius=18, fill="#0b1119", outline=color, width=5)
-        draw.text((x + 22, y + 18), label, font=FONT_SMALL, fill="#ffffff")
-        x = rect[2] + 24
+        rect = (x, y, x + badge_w, y + badge_h)
+        draw.rounded_rectangle(rect, radius=24, fill="#0b1119", outline=color, width=7)
+        draw_centered(draw, (rect[0] + 22, rect[1], rect[2] - 22, rect[3]), label, FONT_BODY_BOLD, "#ffffff")
+        x = rect[2] + badge_gap
 
     # Main body
     draw.rectangle((0, hero_y1, W, H), fill="#f6f1e6")
